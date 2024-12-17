@@ -1,9 +1,9 @@
-'use client';
-import React, { useEffect, useRef } from 'react';
-import H from '@here/maps-api-for-javascript';
-import HType from '@here/maps-api-for-javascript'
-import { useHereService } from 'app/layouts/HereServiceContext';
-
+"use client";
+import React, { useEffect, useRef } from "react";
+import H from "@here/maps-api-for-javascript";
+import HType from "@here/maps-api-for-javascript";
+import { useHereService } from "app/layouts/HereServiceContext";
+import Script from "next/script";
 
 const HereMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -13,10 +13,12 @@ const HereMap: React.FC = () => {
 
   useEffect(() => {
     const initMap = async () => {
+      if (typeof window === "undefined") return;
+
       if (!map.current && mapRef.current) {
         platform.current = new H.service.Platform({ apikey: here.apikey });
 
-        const defaultLayers = platform.current.createDefaultLayers() as {
+        const defaultLayers = platform.current?.createDefaultLayers() as {
           vector: { normal: { map: H.map.layer.TileLayer } };
         };
 
@@ -30,21 +32,14 @@ const HereMap: React.FC = () => {
         );
 
         new H.mapevents.Behavior(new H.mapevents.MapEvents(newMap));
-
         H.ui.UI.createDefault(newMap, defaultLayers);
-
         map.current = newMap;
       }
     };
     initMap();
-  }, [here, mapRef])
+  }, [here, mapRef]);
 
-  return (
-    <div
-      ref={mapRef}
-      className="w-full h-[500px] border rounded-lg"
-    />
-  );
+  return <div ref={mapRef} className="w-full h-[500px] border rounded-lg" />;
 };
 
 export default HereMap;

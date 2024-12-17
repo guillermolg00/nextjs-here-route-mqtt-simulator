@@ -9,6 +9,8 @@ import Footer from "./components/footer";
 import { baseUrl } from "./sitemap";
 import { HereServiceProvider } from "./layouts/HereServiceContext";
 import { environment } from "./environment";
+import Script from "next/script";
+import HereMapScripts from "./components/hereMapScripts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -16,10 +18,12 @@ export const metadata: Metadata = {
     default: "Next.js Here Route MQTT Simulator",
     template: "",
   },
-  description: "Simulate a driver’s movement along a HERE Routing API route and publish positions to MQTT. Includes a frontend form for credentials and HERE Maps visualization. Styled with Tailwind CSS and easily deployable",
+  description:
+    "Simulate a driver’s movement along a HERE Routing API route and publish positions to MQTT. Includes a frontend form for credentials and HERE Maps visualization. Styled with Tailwind CSS and easily deployable",
   openGraph: {
     title: "Next.js Here Route MQTT Simulator",
-    description: "Simulate a driver’s movement along a HERE Routing API route and publish positions to MQTT. Includes a frontend form for credentials and HERE Maps visualization. Styled with Tailwind CSS and easily deployable",
+    description:
+      "Simulate a driver’s movement along a HERE Routing API route and publish positions to MQTT. Includes a frontend form for credentials and HERE Maps visualization. Styled with Tailwind CSS and easily deployable",
     url: baseUrl,
     siteName: "Next.js Here Route MQTT Simulator",
     locale: "en_US",
@@ -54,9 +58,11 @@ export default function RootLayout({
         GeistMono.variable
       )}
     >
+      <head>
+        <HereMapScripts />
+      </head>
       <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
           <HereServiceProvider
             config={{
               apiKey: environment.HERE_API_KEY,
