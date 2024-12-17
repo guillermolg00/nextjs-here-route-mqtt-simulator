@@ -1,21 +1,16 @@
-import { BlogPosts } from 'app/components/posts'
+import dynamic from 'next/dynamic';
+const HereMap = dynamic(() => import('./components/hereMap'), { ssr: false });
 
 export default function Page() {
   return (
     <section>
       <h1 className="mb-8 text-2xl font-semibold tracking-tighter">
-        My Portfolio
+        Simulator
       </h1>
-      <p className="mb-4">
-        {`I'm a Vim enthusiast and tab advocate, finding unmatched efficiency in
-        Vim's keystroke commands and tabs' flexibility for personal viewing
-        preferences. This extends to my support for static typing, where its
-        early error detection ensures cleaner code, and my preference for dark
-        mode, which eases long coding sessions by reducing eye strain.`}
-      </p>
-      <div className="my-8">
-        <BlogPosts />
+      <div className="p-4 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">HERE Map</h1>
+        <HereMap />
       </div>
     </section>
-  )
+  );
 }
