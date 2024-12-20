@@ -2,15 +2,14 @@ import "./global.css";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "./components/footer";
 import { baseUrl } from "./sitemap";
 import { HereServiceProvider } from "./layouts/HereServiceContext";
 import { environment } from "./environment";
-import Script from "next/script";
-import HereMapScripts from "./components/hereMapScripts";
+import HereMapScripts from "./components/here-map-scripts";
+import { MqttProvider } from "./layouts/MqttServiceContext";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -59,18 +58,18 @@ export default function RootLayout({
       )}
     >
       <head>
+        <link rel="icon" href="/favicon.ico" />
         <HereMapScripts />
       </head>
-      <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
+      <body className="antialiased max-w-4xl mx-4 mt-8 lg:mx-auto">
         <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <HereServiceProvider
-            config={{
-              apiKey: environment.HERE_API_KEY,
-              appId: environment.HERE_APP_ID,
-            }}
-          >
-            {children}
-          </HereServiceProvider>
+          <MqttProvider>
+            <HereServiceProvider
+              initialConfig={{ apiKey: environment.HERE_API_KEY }}
+            >
+              {children}
+            </HereServiceProvider>
+          </MqttProvider>
           <Footer />
           <Analytics />
           <SpeedInsights />

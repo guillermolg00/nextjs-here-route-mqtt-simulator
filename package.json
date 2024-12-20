@@ -13,7 +13,10 @@
     "@types/react-dom": "18.2.19",
     "@vercel/analytics": "^1.1.3",
     "@vercel/speed-insights": "^1.0.9",
+    "classnames": "^2.5.1",
     "geist": "1.2.2",
+    "lodash.debounce": "^4.0.8",
+    "mqtt": "^5.10.3",
     "next": "canary",
     "next-mdx-remote": "^4.4.1",
     "postcss": "^8.4.35",
@@ -22,7 +25,5 @@
     "sugar-high": "^0.6.0",
     "tailwindcss": "4.0.0-alpha.13",
     "typescript": "5.3.3"
-  },
-  "devDependencies": {
   }
 }

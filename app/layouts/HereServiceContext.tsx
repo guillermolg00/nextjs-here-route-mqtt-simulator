@@ -1,22 +1,31 @@
 'use client'
-import { createContext, useContext, useRef } from "react";
-import { HereService, HereServiceConfig } from "../services/here/here.service";
+import { createContext, useContext, useRef, useState } from 'react';
+import { HereService, HereServiceConfig } from '../services/here/here.service';
 
-export const HereServiceContext = createContext<HereService | null>(null);
+type HereServiceContextType = {
+  service: HereService | null;
+  updateConfig: (config: HereServiceConfig) => void;
+};
+
+export const HereServiceContext = createContext<HereServiceContextType | null>(null);
 
 export const HereServiceProvider = ({
   children,
-  config
+  initialConfig,
 }: {
   children: React.ReactNode;
-  config: HereServiceConfig;
+  initialConfig: HereServiceConfig;
 }) => {
-  const service = useRef(HereService.initialize({
-    ...config
-  }))
+  const [config, setConfig] = useState(initialConfig);
+  const service = useRef(HereService.initialize(config));
+
+  const updateConfig = (newConfig: HereServiceConfig) => {
+    setConfig(newConfig);
+    service.current = HereService.initialize(newConfig);
+  };
 
   return (
-    <HereServiceContext.Provider value={service.current}>
+    <HereServiceContext.Provider value={{ service: service.current, updateConfig }}>
       {children}
     </HereServiceContext.Provider>
   );
